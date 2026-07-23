@@ -2,6 +2,7 @@
   Módulo de autenticación reutilizable (páginas propias).
   Recibe el local `mode` (:login | :register). El mismo formulario sirve para ambos;
   solo cambian los textos, un campo y los enlaces de cambio (redirección real).
+  El login hace POST real a /login (AuthController#create).
 %>
 <% mode  = local_assigns.fetch(:mode, :login) %>
 <% login = (mode == :login) %>
@@ -56,6 +57,7 @@
   .auth-wallet svg { width:20px; height:20px; color:var(--mint); }
   .divider { display:flex; align-items:center; gap:14px; margin:20px 0; color:var(--ink-mute); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
   .divider::before, .divider::after { content:''; height:1px; flex:1; background:rgba(255,255,255,.09); }
+  .auth-error { background:rgba(255,107,107,.1); border:1px solid rgba(255,107,107,.38); color:#FF9B9B; font-size:13px; padding:11px 14px; border-radius:10px; margin-bottom:16px; text-align:center; }
   .field { margin-bottom:15px; }
   .field label { display:block; font-size:13px; font-weight:500; color:var(--ink-soft); margin-bottom:7px; }
   .field input { width:100%; background:#0A1512; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:13px 15px; color:#fff; font-family:inherit; font-size:15px; transition:border-color .16s, box-shadow .16s; }
@@ -67,7 +69,24 @@
   .switch { text-align:center; margin:22px 0 0; font-size:14px; color:var(--ink-soft); }
   .switch a { color:var(--mint); font-weight:600; }
   .demo { text-align:center; margin:14px 0 0; font-size:11px; color:#5C6E67; }
+  .demo b { color:var(--mint); font-weight:600; }
   .auth a:focus-visible, .auth button:focus-visible, .auth input:focus-visible { outline:2px solid var(--mint); outline-offset:3px; border-radius:8px; }
+
+  /* ===== transiciones (alargadas para que se noten) ===== */
+  @view-transition { navigation: auto; }
+  .auth-visual { view-transition-name: auth-aside; }
+  ::view-transition-old(root) { animation: authFadeOut 1.2s ease both; }
+  ::view-transition-new(root) { animation: authFadeIn 1.8s ease both; }
+  @keyframes authFadeOut { to { opacity:0; } }
+  @keyframes authFadeIn  { from { opacity:0; } }
+
+  @keyframes authEnter { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+  .auth-form { animation: authEnter 2.4s cubic-bezier(.2,.7,.2,1) both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .auth-form { animation:none; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
+  }
 
   @media (max-width:860px) {
     .auth { grid-template-columns:1fr; }
@@ -115,26 +134,29 @@
 
       <div class="divider"><span>o con tu correo</span></div>
 
-      <form onsubmit="return false">
+      <%= form_with url: "/login", method: :post, data: { turbo: false } do %>
+        <% if @error %>
+          <div class="auth-error"><%= @error %></div>
+        <% end %>
         <% unless login %>
           <div class="field">
             <label>Nombre</label>
-            <input type="text" placeholder="Tu nombre" autocomplete="name">
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name">
           </div>
         <% end %>
         <div class="field">
-          <label>Correo</label>
-          <input type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+          <label><%= login ? "Usuario" : "Correo" %></label>
+          <input type="text" name="username" placeholder="<%= login ? 'usuario' : 'tucorreo@ejemplo.com' %>" autocomplete="username">
         </div>
         <div class="field">
           <label>Contraseña</label>
-          <input type="password" placeholder="••••••••" autocomplete="<%= login ? 'current-password' : 'new-password' %>">
+          <input type="password" name="password" placeholder="••••••••" autocomplete="<%= login ? 'current-password' : 'new-password' %>">
         </div>
         <% if login %>
           <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
         <% end %>
         <button type="submit" class="btn-primary"><%= login ? "Iniciar sesión" : "Crear cuenta" %></button>
-      </form>
+      <% end %>
 
       <p class="switch">
         <% if login %>
@@ -143,7 +165,13 @@
           ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
         <% end %>
       </p>
-      <p class="demo">Demo — la autenticación no está conectada.</p>
+      <p class="demo">
+        <% if login %>
+          Demo · entra con <b>usuario</b> / <b>123</b>
+        <% else %>
+          Demo — el registro no está conectado.
+        <% end %>
+      </p>
     </div>
   </main>
 </div>

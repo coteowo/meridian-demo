@@ -3,6 +3,9 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap');
 
+  /* transición suave al navegar del sitio al login/register */
+  @view-transition { navigation: auto; }
+
   .app {
     /* ===== TEMA CLARO (página y todo debajo del hero) ===== */
     --mint:#00D395; --mint-deep:#00A576; --mint-ink:#008C66;
@@ -63,7 +66,7 @@
 
   /* HERO */
   .app .hero::before { content:''; position:absolute; top:-280px; right:-160px; width:900px; height:900px; background:radial-gradient(circle, rgba(0,211,149,.16), rgba(0,211,149,0) 62%); pointer-events:none; }
-  .app .hero-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center; padding:56px 0 80px; }
+  .app .hero-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center; padding:92px 0 120px; }
   .app .pill { display:inline-flex; align-items:center; gap:8px; background:var(--mint-tint); border:1px solid var(--mint-line); color:var(--mint-ink); font-size:13px; font-weight:600; padding:7px 15px; border-radius:999px; margin-bottom:24px; }
   .app .hero h1 { font-size:clamp(2.5rem, 1.5rem + 3vw, 4rem); font-weight:800; margin-bottom:22px; }
   .app .hero h1 span { color:var(--mint-ink); }

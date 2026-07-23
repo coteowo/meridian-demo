@@ -10,8 +10,13 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Autenticación: páginas propias que reutilizan el mismo módulo de formulario.
-  get "/login",    to: "auth#login"
-  get "/register", to: "auth#register"
+  get  "/login",    to: "auth#login"
+  post "/login",    to: "auth#create"    # procesa el formulario de login
+  get  "/register", to: "auth#register"
+  get  "/logout",   to: "auth#destroy"
+
+  # Panel protegido (requiere sesión).
+  get "/panel", to: "dashboard#index"
 
   # Defines the root path route ("/")
   root "home#index"
