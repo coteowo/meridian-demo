@@ -1,0 +1,243 @@
+<!-- BEGIN app/views/layouts/application.html.erb
+--><!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Crear cuenta — Meridian</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Prueba">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="7up_M8OvucUsEAXa-bVmoM9_Gau4vl_Kh1MKfkbx8DDyPa2-ZDB2Iu-Rp0iQFPmSXDi_gkpnwaSHt5c40qWZVQ" />
+    
+
+    
+
+
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    
+    
+
+
+
+
+
+
+
+
+  </head>
+
+  <body>
+    <!-- BEGIN app/views/auth/register.html.erb
+--><!-- BEGIN app/views/auth/_auth_page.html.erb
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap');
+
+  .auth {
+    --mint:#00D395; --mint-deep:#00A576;
+    --ink:#fff; --ink-soft:#A4BAB2; --ink-mute:#6B8078; --line:rgba(255,255,255,.09);
+    --font-display:'Sora',system-ui,sans-serif; --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    min-height:100vh; display:grid; grid-template-columns:1.05fr .95fr;
+    background:#0A1512; color:var(--ink); font-family:var(--font-sans); font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .auth *, .auth *::before, .auth *::after { box-sizing:border-box; }
+  .auth a { color:inherit; text-decoration:none; }
+  .auth ul { list-style:none; margin:0; padding:0; }
+  .auth .mk { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--mint),var(--mint-deep)); position:relative; flex-shrink:0; }
+  .auth .mk::before { content:''; position:absolute; inset:9px; background:#04160F; clip-path:polygon(50% 20%,82% 80%,18% 80%); }
+
+  /* panel visual (izquierda) */
+  .auth-visual { position:relative; overflow:hidden; padding:44px 52px; display:flex; flex-direction:column; justify-content:space-between; gap:40px; background:linear-gradient(165deg,#0C1A16,#08120F); border-right:1px solid var(--line); }
+  .auth-visual::before { content:''; position:absolute; top:-15%; left:-12%; width:680px; height:680px; background:radial-gradient(circle, rgba(0,211,149,.16), transparent 62%); pointer-events:none; }
+  .auth-visual > * { position:relative; z-index:1; }
+  .av-brand { display:flex; align-items:center; gap:11px; font-family:var(--font-display); font-weight:700; font-size:19px; }
+  .av-mid { max-width:460px; }
+  .av-eyebrow { display:inline-flex; align-items:center; gap:9px; font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--mint); }
+  .av-eyebrow::before { content:''; width:16px; height:2px; border-radius:2px; background:var(--mint); }
+  .av-mid h2 { font-family:var(--font-display); font-weight:800; font-size:clamp(2rem,1.4rem+1.7vw,2.9rem); line-height:1.08; letter-spacing:-.02em; margin:18px 0 26px; }
+  .av-mid h2 span { background:linear-gradient(120deg,#00D395,#5CF0CB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .av-bullets { display:flex; flex-direction:column; gap:16px; }
+  .av-bullets li { display:flex; gap:12px; align-items:center; color:var(--ink-soft); font-size:15px; }
+  .av-bullets .ck { width:24px; height:24px; border-radius:50%; background:rgba(0,211,149,.12); border:1px solid rgba(0,211,149,.3); color:var(--mint); display:grid; place-items:center; flex-shrink:0; }
+  .av-bullets .ck svg { width:13px; height:13px; }
+  .av-quote { background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:16px; padding:22px 24px; max-width:430px; }
+  .av-quote p { font-size:15px; line-height:1.6; color:#D5E0DB; margin:0; }
+  .av-quote .who { margin-top:16px; display:flex; align-items:center; gap:11px; }
+  .av-quote .avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--mint),var(--mint-deep)); flex-shrink:0; }
+  .av-quote .who b { font-size:14px; display:block; }
+  .av-quote .who small { font-size:12px; color:var(--ink-mute); }
+
+  /* panel del formulario (derecha) */
+  .auth-panel { display:flex; align-items:center; justify-content:center; padding:44px; }
+  .auth-form { width:100%; max-width:400px; }
+  .af-back { display:inline-flex; align-items:center; gap:6px; color:var(--ink-mute); font-size:13px; margin-bottom:26px; transition:color .16s; }
+  .af-back:hover { color:var(--ink); }
+  .af-brand { display:none; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:17px; margin-bottom:22px; }
+  .af-title { font-family:var(--font-display); font-size:1.7rem; font-weight:700; letter-spacing:-.02em; line-height:1.12; margin:0 0 8px; }
+  .af-sub { color:var(--ink-soft); font-size:14px; margin:0 0 26px; }
+  .auth-wallet { width:100%; display:flex; align-items:center; justify-content:center; gap:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:#fff; font-family:inherit; font-weight:600; font-size:15px; padding:13px; border-radius:12px; cursor:pointer; transition:border-color .16s, background .16s; }
+  .auth-wallet:hover { border-color:rgba(0,211,149,.4); background:rgba(0,211,149,.06); }
+  .auth-wallet svg { width:20px; height:20px; color:var(--mint); }
+  .divider { display:flex; align-items:center; gap:14px; margin:20px 0; color:var(--ink-mute); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+  .divider::before, .divider::after { content:''; height:1px; flex:1; background:rgba(255,255,255,.09); }
+  .auth-error { background:rgba(255,107,107,.1); border:1px solid rgba(255,107,107,.38); color:#FF9B9B; font-size:13px; padding:11px 14px; border-radius:10px; margin-bottom:16px; text-align:center; }
+  .field { margin-bottom:15px; }
+  .field label { display:block; font-size:13px; font-weight:500; color:var(--ink-soft); margin-bottom:7px; }
+  .field input { width:100%; background:#0A1512; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:13px 15px; color:#fff; font-family:inherit; font-size:15px; transition:border-color .16s, box-shadow .16s; }
+  .field input::placeholder { color:#5C6E67; }
+  .field input:focus { outline:none; border-color:var(--mint); box-shadow:0 0 0 3px rgba(0,211,149,.16); }
+  .forgot { display:inline-block; margin:-2px 0 18px; font-size:13px; color:var(--mint); font-weight:500; }
+  .auth .btn-primary { width:100%; display:inline-flex; align-items:center; justify-content:center; gap:9px; background:linear-gradient(180deg,#19E6A4,#00C288); color:#04160F; font-family:var(--font-sans); font-weight:600; font-size:15px; padding:14px; border:none; border-radius:12px; cursor:pointer; box-shadow:0 8px 22px rgba(0,211,149,.24), inset 0 1px 0 rgba(255,255,255,.28); transition:filter .16s, transform .16s; }
+  .auth .btn-primary:hover { filter:brightness(1.05); transform:translateY(-1px); }
+  .switch { text-align:center; margin:22px 0 0; font-size:14px; color:var(--ink-soft); }
+  .switch a { color:var(--mint); font-weight:600; }
+  .demo { text-align:center; margin:14px 0 0; font-size:11px; color:#5C6E67; }
+  .demo b { color:var(--mint); font-weight:600; }
+
+  /* popup de modo demo */
+  .auth .demo-modal { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; padding:22px; background:rgba(5,13,10,.7); opacity:0; visibility:hidden; transition:opacity .22s ease, visibility .22s ease; }
+  .auth .demo-modal.open { opacity:1; visibility:visible; }
+  .auth .demo-box { width:100%; max-width:400px; background:#0C1A16; border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:32px 30px; text-align:center; box-shadow:0 40px 100px rgba(0,0,0,.55); transform:translateY(14px) scale(.98); transition:transform .26s cubic-bezier(.2,.8,.2,1); }
+  .auth .demo-modal.open .demo-box { transform:none; }
+  .auth .demo-emoji { font-size:40px; margin-bottom:12px; }
+  .auth .demo-box h3 { font-family:var(--font-display); font-size:1.35rem; font-weight:700; letter-spacing:-.02em; margin:0 0 10px; }
+  .auth .demo-box p { color:var(--ink-soft); font-size:14px; line-height:1.6; margin:0 0 24px; }
+  .auth .demo-box p b { color:var(--mint); }
+  .auth .demo-actions { display:flex; flex-direction:column; gap:10px; }
+  .auth .demo-cancel { background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--ink-soft); font-family:inherit; font-weight:600; font-size:14px; padding:12px; border-radius:12px; cursor:pointer; transition:border-color .16s, color .16s; }
+  .auth .demo-cancel:hover { border-color:rgba(255,255,255,.28); color:#fff; }
+  .auth a:focus-visible, .auth button:focus-visible, .auth input:focus-visible { outline:2px solid var(--mint); outline-offset:3px; border-radius:8px; }
+
+  /* ===== transiciones (alargadas para que se noten) ===== */
+  @view-transition { navigation: auto; }
+  .auth-visual { view-transition-name: auth-aside; }
+  ::view-transition-old(root) { animation: authFadeOut 1.2s ease both; }
+  ::view-transition-new(root) { animation: authFadeIn 1.8s ease both; }
+  @keyframes authFadeOut { to { opacity:0; } }
+  @keyframes authFadeIn  { from { opacity:0; } }
+
+  @keyframes authEnter { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+  .auth-form { animation: authEnter 2.4s cubic-bezier(.2,.7,.2,1) both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .auth-form { animation:none; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
+  }
+
+  @media (max-width:860px) {
+    .auth { grid-template-columns:1fr; }
+    .auth-visual { display:none; }
+    .af-brand { display:flex; }
+    .auth-panel { padding:40px 22px; min-height:100vh; }
+  }
+</style>
+
+<div class="auth">
+  <aside class="auth-visual">
+    <a href="index.html" class="av-brand"><span class="mk"></span> Meridian</a>
+
+    <div class="av-mid">
+      <span class="av-eyebrow">Protocolo no-custodial</span>
+      <h2>Haz crecer tu <span>capital</span> cripto.</h2>
+      <ul class="av-bullets">
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Gana hasta 15% anual, con pagos diarios</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> No-custodial y auditado por terceros</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Retira cuando quieras, sin bloqueos</li>
+      </ul>
+    </div>
+
+    <div class="av-quote">
+      <p>"La forma más simple que encontré para poner a trabajar mis criptos, sin perder el control de mis fondos."</p>
+      <div class="who">
+        <span class="avatar"></span>
+        <div><b>Alex M.</b><small>Cliente desde 2021</small></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="auth-panel">
+    <div class="auth-form">
+      <a href="index.html" class="af-back">← Volver al inicio</a>
+      <a href="index.html" class="af-brand"><span class="mk"></span> Meridian</a>
+
+      <h1 class="af-title">Crea tu cuenta</h1>
+      <p class="af-sub">Empieza a hacer crecer tus criptos hoy.</p>
+
+      <button type="button" class="auth-wallet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12h5v-3h-5a1.5 1.5 0 0 0 0 3z"/></svg>
+        Continuar con wallet
+      </button>
+
+      <div class="divider"><span>o con tu correo</span></div>
+
+      <form data-turbo="false" action="panel.html" accept-charset="UTF-8" method="get"><input type="hidden" name="authenticity_token" value="HlimtsgIXoxy1FzBqVnlQ2BJ8YVWlwxQEctcTEEYoqJWUIBbjIMbFKBap59AF3vClYxter9iXfX85doNzkiVBg" />
+          <div class="field">
+            <label>Nombre</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name">
+          </div>
+        <div class="field">
+          <label>Correo</label>
+          <input type="text" name="username" placeholder="tucorreo@ejemplo.com" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" name="password" placeholder="••••••••" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-primary">Crear cuenta</button>
+</form>
+      <p class="switch">
+          ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+      </p>
+      <p class="demo">
+          Demo — el registro no está conectado.
+      </p>
+    </div>
+  </main>
+
+    <div class="demo-modal" id="demoModal" aria-hidden="true">
+      <div class="demo-box" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+        <div class="demo-emoji">🎭</div>
+        <h3 id="demoTitle">Esta es una demo</h3>
+        <p>La autenticación no está conectada a un sistema real. Puedes entrar con <b>usuario</b> / <b>123</b> para explorar el panel.</p>
+        <div class="demo-actions">
+          <button type="button" class="btn-primary" id="demoContinue">Continuar de todos modos</button>
+          <button type="button" class="demo-cancel" id="demoClose">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var modal = document.getElementById('demoModal');
+        var form  = document.querySelector('.auth-form form');
+        if (!modal || !form) return;
+
+        // Intercepta el envío y muestra el popup en vez de iniciar sesión.
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          modal.classList.add('open');
+        });
+
+        // form.submit() NO dispara el listener de arriba, así que envía de verdad.
+        document.getElementById('demoContinue').addEventListener('click', function () {
+          modal.classList.remove('open');
+          window.location.href = 'panel.html';
+        });
+
+        function cerrar() { modal.classList.remove('open'); }
+        document.getElementById('demoClose').addEventListener('click', cerrar);
+        modal.addEventListener('click', function (e) { if (e.target === modal) cerrar(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(); });
+      })();
+    </script>
+</div>
+<!-- END app/views/auth/_auth_page.html.erb -->
+<!-- END app/views/auth/register.html.erb -->
+  </body>
+</html>
+<!-- END app/views/layouts/application.html.erb -->
