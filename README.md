@@ -10,6 +10,9 @@ y un **panel protegido**.
 > ⚠️ **Proyecto de prueba, sin valor real ni fines comerciales.** Las credenciales
 > están escritas en el código a propósito (ver más abajo). No usar en producción.
 
+
+
+> Demo accesible en: https://coteowo.github.io/meridian-demo/
 ---
 
 ## 🧱 Stack
